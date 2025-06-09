@@ -1,5 +1,6 @@
 import json
 import re
+import argparse
 
 # Map of common abbreviations to full names
 ABBREVIATIONS = {
@@ -78,7 +79,12 @@ def split_letter_number(s):
 	return re.sub(r"([A-Za-z])(\d+)", r"\1 \2", s)
 
 # Load GeoJSON
-with open("CLE_ADDS.geojson", "r", encoding="utf-8") as f:
+parser = argparse.ArgumentParser()
+parser.add_argument('input', help='Input geojson file')
+parser.add_argument('--output', default='output.geojson', help='Output geojson file')
+args = parser.parse_args()
+
+with open(args.input, "r", encoding="utf-8") as f:
     data = json.load(f)
 
 # Translate to OSM standard tags
@@ -159,5 +165,5 @@ for feature in data.get("features", []):
 		props.pop(key, None)	
 	
 # Save corrected GeoJSON
-with open("output.geojson", "w", encoding="utf-8") as f:
+with open(args.output, "w", encoding="utf-8") as f:
     json.dump(data, f, ensure_ascii=False, indent=2)
