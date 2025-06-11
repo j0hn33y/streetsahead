@@ -150,8 +150,6 @@ for feature in data.get("features", []):
 		if isinstance(value, str):
 			city = to_mixed_case(value)
 			props["addr:city"] = city
-	else:
-		streetname = ""
 
 	props["addr:state"] = "OH"
 
